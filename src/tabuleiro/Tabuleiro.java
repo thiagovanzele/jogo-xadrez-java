@@ -1,5 +1,7 @@
 package tabuleiro;
 
+import javax.swing.text.Position;
+
 public class Tabuleiro {
 
 	private int linhas;
@@ -34,5 +36,10 @@ public class Tabuleiro {
 	
 	public Peca peca(Posicao posicao) {
 		return pecas[posicao.getLinha()][posicao.getColuna()];
+	}
+	
+	public void lugarPeca(Peca peca, Posicao posicao) {
+		pecas[posicao.getLinha()][posicao.getColuna()] = peca;
+		peca.posicao = posicao;
 	}
 }
