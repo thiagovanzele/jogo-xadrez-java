@@ -41,8 +41,11 @@ public class PartidaXadrez {
 	}
 	
 	private static void validaPosicaoInicial(Posicao posicao) {
-		if(!tabuleiro.haUmapeca(posicao)) {
+		if (!tabuleiro.haUmapeca(posicao)) {
 			throw new ExcessaoXadrez("Nao ha peca na posicao de origem");
+		}
+		if (!tabuleiro.peca(posicao).existeAlgumMovimentoPossivel()) {
+			throw new ExcessaoXadrez("Nao existem movimentos possiveis para peca escolhida");
 		}
 	}
 
