@@ -3,7 +3,6 @@ package xadrez;
 import tabuleiro.Peca;
 import tabuleiro.Posicao;
 import tabuleiro.Tabuleiro;
-import tabuleiro.TabuleiroExcessao;
 import xadrez.pecas.Rei;
 import xadrez.pecas.Torre;
 
@@ -43,7 +42,7 @@ public class PartidaXadrez {
 	
 	private static void validaPosicaoInicial(Posicao posicao) {
 		if(!tabuleiro.haUmapeca(posicao)) {
-			throw new TabuleiroExcessao("Nao ha peça na posicao de origem");
+			throw new ExcessaoXadrez("Nao ha peca na posicao de origem");
 		}
 	}
 
