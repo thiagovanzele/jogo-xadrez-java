@@ -47,15 +47,21 @@ public class UI {
 			throw new InputMismatchException("Erro lendo  a PosicaoXadrez. Valores validos de a1 ate h8.");
 		}
 	}
-	
+
 	public static void imprimePartida(PartidaXadrez partidaXadrez, List<PecaXadrez> capturada) {
 		imprimeTabuleiro(partidaXadrez.getPecas());
 		System.out.println();
 		imprimePecaCapturada(capturada);
-		System.out.println("Turn: " +partidaXadrez.getTurno());
-		System.out.println("Esperando jogador: " + partidaXadrez.getPlayerAtual());
-		if (partidaXadrez.getCheck()) {
-			System.out.println("CHECK!");
+		System.out.println();
+		System.out.println("Turno: " + partidaXadrez.getTurno());
+		if (!partidaXadrez.getCheckMate()) {
+			System.out.println("Esperando jogador: " + partidaXadrez.getPlayerAtual());
+			if (partidaXadrez.getCheck()) {
+				System.out.println("CHECK!");
+			}
+		} else {
+			System.out.println("CHECKMATE!");
+			System.out.println("Vencedor: " + partidaXadrez.getPlayerAtual());
 		}
 	}
 
@@ -69,7 +75,7 @@ public class UI {
 		}
 		System.out.println("  a b c d e f g h");
 	}
-	
+
 	public static void imprimeTabuleiro(PecaXadrez[][] pecas, boolean[][] movimentosPossiveis) {
 		for (int i = 0; i < pecas.length; i++) {
 			System.out.print((8 - i) + " ");
@@ -88,23 +94,24 @@ public class UI {
 		if (piece == null) {
 			System.out.print("- " + ANSI_RESET);
 		} else {
-			if (piece.getCor() == Cores.BRANCO) { 
+			if (piece.getCor() == Cores.BRANCO) {
 				System.out.print(ANSI_WHITE + piece + " " + ANSI_RESET);
 			} else {
 				System.out.print(ANSI_YELLOW + piece + " " + ANSI_RESET);
 			}
 		}
 	}
-	
+
 	private static void imprimePecaCapturada(List<PecaXadrez> capturada) {
-		List<PecaXadrez> branca = capturada.stream().filter(x -> x.getCor() == Cores.BRANCO).collect(Collectors.toList());
+		List<PecaXadrez> branca = capturada.stream().filter(x -> x.getCor() == Cores.BRANCO)
+				.collect(Collectors.toList());
 		List<PecaXadrez> preta = capturada.stream().filter(x -> x.getCor() == Cores.PRETO).collect(Collectors.toList());
 		System.out.println("Pecas capturadas: ");
-		System.out.println("Brancas: ");
+		System.out.print("Brancas: ");
 		System.out.print(ANSI_WHITE);
 		System.out.println(Arrays.toString(branca.toArray()));
 		System.out.print(ANSI_RESET);
-		System.out.println("Pretas: ");
+		System.out.print("Pretas: ");
 		System.out.print(ANSI_YELLOW);
 		System.out.println(Arrays.toString(preta.toArray()));
 		System.out.print(ANSI_RESET);
