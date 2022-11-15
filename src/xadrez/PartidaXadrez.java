@@ -22,7 +22,6 @@ public class PartidaXadrez {
 	private static boolean check;
 	private static boolean checkMate;
 
-
 	private static List<Peca> pecasNoTabuleiro = new ArrayList<>();
 	private static List<Peca> pecasCapturadas = new ArrayList<>();
 
@@ -89,7 +88,7 @@ public class PartidaXadrez {
 	}
 
 	private static Peca fazerMover(Posicao inicial, Posicao destino) {
-		PecaXadrez p = (PecaXadrez)tabuleiro.removePeca(inicial);
+		PecaXadrez p = (PecaXadrez) tabuleiro.removePeca(inicial);
 		p.incrementaContaMovimento();
 		Peca pecaCapturada = tabuleiro.removePeca(destino);
 		tabuleiro.colocarPeca(p, destino);
@@ -98,11 +97,29 @@ public class PartidaXadrez {
 			pecasNoTabuleiro.remove(pecaCapturada);
 			pecasCapturadas.add(pecaCapturada);
 		}
+
+		// Movimento Especial Roque Pequeno
+		if (p instanceof Rei && destino.getColuna() == inicial.getColuna() + 2) {
+			Posicao origemT = new Posicao(inicial.getLinha(), inicial.getColuna() + 3);
+			Posicao destinoT = new Posicao(inicial.getLinha(), inicial.getColuna() + 1);
+			PecaXadrez torre = (PecaXadrez) tabuleiro.removePeca(origemT);
+			tabuleiro.colocarPeca(torre, destinoT);
+			torre.incrementaContaMovimento();
+		}
+		// Movimento Especial Roque Grande
+		if (p instanceof Rei && destino.getColuna() == inicial.getColuna() - 2) {
+			Posicao origemT = new Posicao(inicial.getLinha(), inicial.getColuna() - 4);
+			Posicao destinoT = new Posicao(inicial.getLinha(), inicial.getColuna() - 1);
+			PecaXadrez torre = (PecaXadrez) tabuleiro.removePeca(origemT);
+			tabuleiro.colocarPeca(torre, destinoT);
+			torre.incrementaContaMovimento();
+		}
+
 		return pecaCapturada;
 	}
 
 	private static void desfazerMovimento(Posicao origem, Posicao destino, Peca pecaCapturada) {
-		PecaXadrez p = (PecaXadrez)tabuleiro.removePeca(destino);
+		PecaXadrez p = (PecaXadrez) tabuleiro.removePeca(destino);
 		p.decrementaContaMovimento();
 		tabuleiro.colocarPeca(p, origem);
 
@@ -111,6 +128,24 @@ public class PartidaXadrez {
 			pecasCapturadas.remove(pecaCapturada);
 			pecasNoTabuleiro.add(pecaCapturada);
 		}
+
+		// Movimento Especial Roque Pequeno
+		if (p instanceof Rei && destino.getColuna() == origem.getColuna() + 2) {
+			Posicao origemT = new Posicao(origem.getLinha(), origem.getColuna() + 3);
+			Posicao destinoT = new Posicao(origem.getLinha(), origem.getColuna() + 1);
+			PecaXadrez torre = (PecaXadrez) tabuleiro.removePeca(destinoT);
+			tabuleiro.colocarPeca(torre, origemT);
+			torre.decrementaContaMovimento();
+		}
+		// Movimento Especial Roque Grande
+		if (p instanceof Rei && destino.getColuna() == origem.getColuna() - 2) {
+			Posicao origemT = new Posicao(origem.getLinha(), origem.getColuna() - 4);
+			Posicao destinoT = new Posicao(origem.getLinha(), origem.getColuna() - 1);
+			PecaXadrez torre = (PecaXadrez) tabuleiro.removePeca(destinoT);
+			tabuleiro.colocarPeca(torre, origemT);
+			torre.incrementaContaMovimento();
+		}
+
 	}
 
 	private static void validaPosicaoInicial(Posicao posicao) {
@@ -200,7 +235,7 @@ public class PartidaXadrez {
 		coloqueNovaPeca('b', 1, new Cavalo(tabuleiro, Cores.BRANCO));
 		coloqueNovaPeca('c', 1, new Bispo(tabuleiro, Cores.BRANCO));
 		coloqueNovaPeca('d', 1, new Rainha(tabuleiro, Cores.BRANCO));
-		coloqueNovaPeca('e', 1, new Rei(tabuleiro, Cores.BRANCO));
+		coloqueNovaPeca('e', 1, new Rei(tabuleiro, Cores.BRANCO, this));
 		coloqueNovaPeca('f', 1, new Bispo(tabuleiro, Cores.BRANCO));
 		coloqueNovaPeca('g', 1, new Cavalo(tabuleiro, Cores.BRANCO));
 		coloqueNovaPeca('h', 1, new Torre(tabuleiro, Cores.BRANCO));
@@ -217,7 +252,7 @@ public class PartidaXadrez {
 		coloqueNovaPeca('b', 8, new Cavalo(tabuleiro, Cores.PRETO));
 		coloqueNovaPeca('c', 8, new Bispo(tabuleiro, Cores.PRETO));
 		coloqueNovaPeca('d', 8, new Rainha(tabuleiro, Cores.PRETO));
-		coloqueNovaPeca('e', 8, new Rei(tabuleiro, Cores.PRETO));
+		coloqueNovaPeca('e', 8, new Rei(tabuleiro, Cores.PRETO, this));
 		coloqueNovaPeca('f', 8, new Bispo(tabuleiro, Cores.PRETO));
 		coloqueNovaPeca('g', 8, new Cavalo(tabuleiro, Cores.PRETO));
 		coloqueNovaPeca('h', 8, new Torre(tabuleiro, Cores.PRETO));

@@ -111,7 +111,7 @@ public class UI {
 		System.out.print(ANSI_WHITE);
 		System.out.println(Arrays.toString(branca.toArray()));
 		System.out.print(ANSI_RESET);
-		System.out.print("Pretas: ");
+		System.out.print("Pretas:  ");
 		System.out.print(ANSI_YELLOW);
 		System.out.println(Arrays.toString(preta.toArray()));
 		System.out.print(ANSI_RESET);
