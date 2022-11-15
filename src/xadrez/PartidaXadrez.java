@@ -19,6 +19,7 @@ public class PartidaXadrez {
 	private static boolean check;
 	private static boolean checkMate;
 
+
 	private static List<Peca> pecasNoTabuleiro = new ArrayList<>();
 	private static List<Peca> pecasCapturadas = new ArrayList<>();
 
@@ -85,7 +86,8 @@ public class PartidaXadrez {
 	}
 
 	private static Peca fazerMover(Posicao inicial, Posicao destino) {
-		Peca p = tabuleiro.removePeca(inicial);
+		PecaXadrez p = (PecaXadrez)tabuleiro.removePeca(inicial);
+		p.incrementaContaMovimento();
 		Peca pecaCapturada = tabuleiro.removePeca(destino);
 		tabuleiro.colocarPeca(p, destino);
 
@@ -97,7 +99,8 @@ public class PartidaXadrez {
 	}
 
 	private static void desfazerMovimento(Posicao origem, Posicao destino, Peca pecaCapturada) {
-		Peca p = tabuleiro.removePeca(destino);
+		PecaXadrez p = (PecaXadrez)tabuleiro.removePeca(destino);
+		p.decrementaContaMovimento();
 		tabuleiro.colocarPeca(p, origem);
 
 		if (pecaCapturada != null) {
